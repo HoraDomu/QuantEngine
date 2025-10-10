@@ -28,7 +28,7 @@ if df.shape[0] < 2:
 print(df.head())
 
 y = df[ticker1].values
-X = np.arange(len(y)).reshape(-1, 1)  
+X = np.arange(len(y)).reshape(-1, 1)
 
 model = LinearRegression()
 model.fit(X, y)
@@ -46,4 +46,3 @@ plt.xlabel("Time (days)")
 plt.title(f"{ticker1} Linear Regression")
 plt.legend()
 plt.show()
-

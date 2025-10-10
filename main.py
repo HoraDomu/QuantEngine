@@ -711,9 +711,18 @@ class LineReg:
 def main():
     root = tk.Tk()
     root.title("All-in-One Trading Tool")
-    root.geometry("1300x1300")
+    root.geometry("1350x800")
+    root.configure(bg = "#000000")
 
-    vca_frame = ttk.Frame(root)
+    style = ttk.Style()
+    style.theme_use("clam")
+
+    style.configure("Black.TFrame", background="#000000", relief="flat", borderwidth=0)
+    style.configure("Black.TLabel", background="#000000", foreground="white")
+
+    root.configure(bg="#000000")
+
+    vca_frame = ttk.Frame(root, style ='Black.TFrame')
     vca_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10, pady=10)
     VolatilityCrushAnalyzer(vca_frame)
 
@@ -734,4 +743,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
