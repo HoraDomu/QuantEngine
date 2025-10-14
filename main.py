@@ -103,83 +103,155 @@ class VolatilityCrushAnalyzer:
         self.setup_status_section(right_frame, 3)
 
     def setup_connection_section(self, parent, row):
-        conn_frame = ttk.LabelFrame(parent, text="Interactive Brokers Connection", padding="15")
+        conn_frame = ttk.LabelFrame(
+            parent, text="Interactive Brokers Connection", padding="15"
+        )
         conn_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=(0, 15))
         conn_frame.columnconfigure(1, weight=1)
         conn_frame.columnconfigure(3, weight=1)
 
-        ttk.Label(conn_frame, text="Host:").grid(row=0, column=0, padx=(0, 5), sticky=tk.W)
+        ttk.Label(conn_frame, text="Host:").grid(
+            row=0, column=0, padx=(0, 5), sticky=tk.W
+        )
         self.host_var = tk.StringVar(value="127.0.0.1")
-        ttk.Entry(conn_frame, textvariable=self.host_var, width=15).grid(row=0, column=1, padx=(0, 15), sticky=(tk.W, tk.E))
+        ttk.Entry(conn_frame, textvariable=self.host_var, width=15).grid(
+            row=0, column=1, padx=(0, 15), sticky=(tk.W, tk.E)
+        )
 
-        ttk.Label(conn_frame, text="Port:").grid(row=0, column=2, padx=(0, 5), sticky=(tk.W, tk.E))
+        ttk.Label(conn_frame, text="Port:").grid(
+            row=0, column=2, padx=(0, 5), sticky=(tk.W, tk.E)
+        )
         self.port_var = tk.StringVar(value="7497")
-        ttk.Entry(conn_frame, textvariable=self.port_var, width=10).grid(row=0, column=3, padx=(0, 15), sticky=(tk.W, tk.E))
+        ttk.Entry(conn_frame, textvariable=self.port_var, width=10).grid(
+            row=0, column=3, padx=(0, 15), sticky=(tk.W, tk.E)
+        )
 
         button_frame = ttk.Frame(conn_frame)
         button_frame.grid(row=1, column=0, columnspan=4, pady=(10, 0))
 
-        self.connect_btn = ttk.Button(button_frame, text="Connect to IB", command=self.connect_ib)
+        self.connect_btn = ttk.Button(
+            button_frame, text="Connect to IB", command=self.connect_ib
+        )
         self.connect_btn.pack(side=tk.LEFT, padx=(0, 10))
-        self.disconnect_btn = ttk.Button(button_frame, text="Disconnect", command=self.disconnect_ib, state="disabled")
+        self.disconnect_btn = ttk.Button(
+            button_frame,
+            text="Disconnect",
+            command=self.disconnect_ib,
+            state="disabled",
+        )
         self.disconnect_btn.pack(side=tk.LEFT)
 
         self.status_label = ttk.Label(conn_frame, text="Disconnected")
         self.status_label.grid(row=2, column=0, columnspan=4, pady=(5, 0))
 
     def setup_market_data_section(self, parent, row):
-        data_frame = ttk.LabelFrame(parent, text="Market Data & Parameters", padding="10")
+        data_frame = ttk.LabelFrame(
+            parent, text="Market Data & Parameters", padding="10"
+        )
         data_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=(0, 15))
         data_frame.columnconfigure(1, weight=1)
 
-        ttk.Label(data_frame, text="Ticker:").grid(row=0, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
+        ttk.Label(data_frame, text="Ticker:").grid(
+            row=0, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
         ticker_frame = ttk.Frame(data_frame)
         ticker_frame.grid(row=0, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
         ticker_frame.columnconfigure(0, weight=1)
 
         self.ticker_var = tk.StringVar(value="Enter Ticker Here")
-        ttk.Entry(ticker_frame, textvariable=self.ticker_var, width=16, font=("Arial", 10, "bold")).pack(side=tk.LEFT)
+        ttk.Entry(
+            ticker_frame,
+            textvariable=self.ticker_var,
+            width=16,
+            font=("Arial", 10, "bold"),
+        ).pack(side=tk.LEFT)
 
-        self.fetch_btn = ttk.Button(ticker_frame, text="Fetch Data", command=self.fetch_market_data, state="disabled")
+        self.fetch_btn = ttk.Button(
+            ticker_frame,
+            text="Fetch Data",
+            command=self.fetch_market_data,
+            state="disabled",
+        )
         self.fetch_btn.pack(side=tk.RIGHT, padx=(10, 0))
 
-        ttk.Label(data_frame, text="Spot Price:").grid(row=1, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
+        ttk.Label(data_frame, text="Spot Price:").grid(
+            row=1, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
         self.spot_price_var = tk.StringVar()
-        ttk.Entry(data_frame, textvariable=self.spot_price_var, width=15, font=("Arial", 10, "bold")).grid(row=1, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
+        ttk.Entry(
+            data_frame,
+            textvariable=self.spot_price_var,
+            width=15,
+            font=("Arial", 10, "bold"),
+        ).grid(row=1, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
 
-        ttk.Label(data_frame, text="Strike Price:").grid(row=2, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
+        ttk.Label(data_frame, text="Strike Price:").grid(
+            row=2, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
         self.strike_var = tk.StringVar()
-        ttk.Entry(data_frame, textvariable=self.strike_var, width=15, font=("Arial", 10, "bold")).grid(row=2, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
+        ttk.Entry(
+            data_frame,
+            textvariable=self.strike_var,
+            width=15,
+            font=("Arial", 10, "bold"),
+        ).grid(row=2, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
 
-        ttk.Label(data_frame, text="IV (%):").grid(row=3, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
+        ttk.Label(data_frame, text="IV (%):").grid(
+            row=3, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
         self.iv_var = tk.StringVar()
-        ttk.Entry(data_frame, textvariable=self.iv_var, width=15, font=("Arial", 10, "bold")).grid(row=3, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
+        ttk.Entry(
+            data_frame, textvariable=self.iv_var, width=15, font=("Arial", 10, "bold")
+        ).grid(row=3, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
 
-        ttk.Label(data_frame, text="Days to Expiry:").grid(row=4, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
+        ttk.Label(data_frame, text="Days to Expiry:").grid(
+            row=4, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
         self.days_var = tk.StringVar(value="30")
-        ttk.Entry(data_frame, textvariable=self.days_var, width=15, font=("Arial", 10, "bold")).grid(row=4, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
+        ttk.Entry(
+            data_frame, textvariable=self.days_var, width=15, font=("Arial", 10, "bold")
+        ).grid(row=4, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
 
-        self.price_btn = ttk.Button(data_frame, text="Price Straddle", command=self.price_current_straddle, state="disabled")
+        self.price_btn = ttk.Button(
+            data_frame,
+            text="Price Straddle",
+            command=self.price_current_straddle,
+            state="disabled",
+        )
         self.price_btn.grid(row=5, column=0, columnspan=2, padx=(10, 0))
 
     def setup_current_straddle_section(self, parent, row):
-        pricing_frame = ttk.LabelFrame(parent, text="Current Straddle Price", padding="10")
+        pricing_frame = ttk.LabelFrame(
+            parent, text="Current Straddle Price", padding="10"
+        )
         pricing_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=(0, 15))
         pricing_frame.columnconfigure(1, weight=1)
 
-        ttk.Label(pricing_frame, text="Call Price:").grid(row=0, column=0, padx=(0, 10), pady=(0, 5), sticky=tk.W)
-        self.call_price_label = ttk.Label(pricing_frame, text="$0.00", font=("Arial", 11, "bold"))
+        ttk.Label(pricing_frame, text="Call Price:").grid(
+            row=0, column=0, padx=(0, 10), pady=(0, 5), sticky=tk.W
+        )
+        self.call_price_label = ttk.Label(
+            pricing_frame, text="$0.00", font=("Arial", 11, "bold")
+        )
         self.call_price_label.grid(row=0, column=1, sticky=tk.W, pady=(0, 5))
 
-        ttk.Label(pricing_frame, text="Put Price:").grid(row=1, column=0, padx=(0, 10), pady=(0, 5), sticky=tk.W)
-        self.put_price_label = ttk.Label(pricing_frame, text="$0.00", font=("Arial", 11, "bold"))
+        ttk.Label(pricing_frame, text="Put Price:").grid(
+            row=1, column=0, padx=(0, 10), pady=(0, 5), sticky=tk.W
+        )
+        self.put_price_label = ttk.Label(
+            pricing_frame, text="$0.00", font=("Arial", 11, "bold")
+        )
         self.put_price_label.grid(row=1, column=1, sticky=tk.W, pady=(0, 5))
 
         separator = ttk.Separator(pricing_frame, orient="horizontal")
         separator.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=8)
 
-        ttk.Label(pricing_frame, text="Straddle Price:").grid(row=3, column=0, padx=(0, 10), pady=(0, 5), sticky=tk.W)
-        self.straddle_price_label = ttk.Label(pricing_frame, text="$0.00", font=("Arial", 14, "bold"))
+        ttk.Label(pricing_frame, text="Straddle Price:").grid(
+            row=3, column=0, padx=(0, 10), pady=(0, 5), sticky=tk.W
+        )
+        self.straddle_price_label = ttk.Label(
+            pricing_frame, text="$0.00", font=("Arial", 14, "bold")
+        )
         self.straddle_price_label.grid(row=3, column=1, sticky=tk.W, pady=(0, 5))
 
     def setup_current_greeks_section(self, parent, row):
@@ -188,20 +260,36 @@ class VolatilityCrushAnalyzer:
         greeks_frame.columnconfigure(1, weight=1)
         greeks_frame.columnconfigure(3, weight=1)
 
-        ttk.Label(greeks_frame, text="Delta:").grid(row=0, column=0, padx=(0, 5), pady=(0, 5), sticky=tk.W)
-        self.delta_label = ttk.Label(greeks_frame, text="0.00", font=("Arial", 10, "bold"))
+        ttk.Label(greeks_frame, text="Delta:").grid(
+            row=0, column=0, padx=(0, 5), pady=(0, 5), sticky=tk.W
+        )
+        self.delta_label = ttk.Label(
+            greeks_frame, text="0.00", font=("Arial", 10, "bold")
+        )
         self.delta_label.grid(row=0, column=1, sticky=tk.W, pady=(0, 5))
 
-        ttk.Label(greeks_frame, text="Gamma:").grid(row=0, column=2, padx=(0, 5), pady=(0, 5), sticky=tk.W)
-        self.gamma_label = ttk.Label(greeks_frame, text="0.00", font=("Arial", 10, "bold"))
+        ttk.Label(greeks_frame, text="Gamma:").grid(
+            row=0, column=2, padx=(0, 5), pady=(0, 5), sticky=tk.W
+        )
+        self.gamma_label = ttk.Label(
+            greeks_frame, text="0.00", font=("Arial", 10, "bold")
+        )
         self.gamma_label.grid(row=0, column=3, sticky=tk.W, pady=(0, 5))
 
-        ttk.Label(greeks_frame, text="Vega:").grid(row=1, column=0, padx=(0, 5), pady=(0, 5), sticky=tk.W)
-        self.vega_label = ttk.Label(greeks_frame, text="0.00", font=("Arial", 10, "bold"))
+        ttk.Label(greeks_frame, text="Vega:").grid(
+            row=1, column=0, padx=(0, 5), pady=(0, 5), sticky=tk.W
+        )
+        self.vega_label = ttk.Label(
+            greeks_frame, text="0.00", font=("Arial", 10, "bold")
+        )
         self.vega_label.grid(row=1, column=1, sticky=tk.W, pady=(0, 5))
 
-        ttk.Label(greeks_frame, text="Theta:").grid(row=1, column=2, padx=(0, 5), pady=(0, 5), sticky=tk.W)
-        self.theta_label = ttk.Label(greeks_frame, text="0.00", font=("Arial", 10, "bold"))
+        ttk.Label(greeks_frame, text="Theta:").grid(
+            row=1, column=2, padx=(0, 5), pady=(0, 5), sticky=tk.W
+        )
+        self.theta_label = ttk.Label(
+            greeks_frame, text="0.00", font=("Arial", 10, "bold")
+        )
         self.theta_label.grid(row=1, column=3, sticky=tk.W, pady=(0, 5))
 
     def setup_scenario_section(self, parent, row):
@@ -209,15 +297,34 @@ class VolatilityCrushAnalyzer:
         scenario_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=(0, 15))
         scenario_frame.columnconfigure(1, weight=1)
 
-        ttk.Label(scenario_frame, text="New Spot Price:").grid(row=0, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
+        ttk.Label(scenario_frame, text="New Spot Price:").grid(
+            row=0, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
         self.new_spot_price = tk.StringVar()
-        ttk.Entry(scenario_frame, textvariable=self.new_spot_price, width=15, font=("Arial", 10, "bold")).grid(row=0, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
+        ttk.Entry(
+            scenario_frame,
+            textvariable=self.new_spot_price,
+            width=15,
+            font=("Arial", 10, "bold"),
+        ).grid(row=0, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
 
-        ttk.Label(scenario_frame, text="New IV (%):").grid(row=1, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
+        ttk.Label(scenario_frame, text="New IV (%):").grid(
+            row=1, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
         self.new_iv_var = tk.StringVar()
-        ttk.Entry(scenario_frame, textvariable=self.new_iv_var, width=15, font=("Arial", 10, "bold")).grid(row=1, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
+        ttk.Entry(
+            scenario_frame,
+            textvariable=self.new_iv_var,
+            width=15,
+            font=("Arial", 10, "bold"),
+        ).grid(row=1, column=1, sticky=(tk.W, tk.E), pady=(0, 8))
 
-        self.analyze_btn = ttk.Button(scenario_frame, text="Analyze Scenario", command=self.analyze_scenario, state="disabled")
+        self.analyze_btn = ttk.Button(
+            scenario_frame,
+            text="Analyze Scenario",
+            command=self.analyze_scenario,
+            state="disabled",
+        )
         self.analyze_btn.grid(row=2, column=0, columnspan=2, pady=(10, 0))
 
     def setup_pnl_section(self, parent, row):
@@ -225,52 +332,92 @@ class VolatilityCrushAnalyzer:
         pnl_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=(0, 15))
         pnl_frame.columnconfigure(1, weight=1)
 
-        ttk.Label(pnl_frame, text="New Straddle Price:").grid(row=0, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
-        self.new_straddle_label = ttk.Label(pnl_frame, text="$0.00", font=("Arial", 12, "bold"))
+        ttk.Label(pnl_frame, text="New Straddle Price:").grid(
+            row=0, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
+        self.new_straddle_label = ttk.Label(
+            pnl_frame, text="$0.00", font=("Arial", 12, "bold")
+        )
         self.new_straddle_label.grid(row=0, column=1, sticky=tk.W, pady=(0, 8))
 
         separator = ttk.Separator(pnl_frame, orient="horizontal")
         separator.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=8)
 
-        ttk.Label(pnl_frame, text="Long Straddle P/L:").grid(row=2, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
-        self.pnl_long_label = ttk.Label(pnl_frame, text="$0.00", font=("Arial", 12, "bold"))
+        ttk.Label(pnl_frame, text="Long Straddle P/L:").grid(
+            row=2, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
+        self.pnl_long_label = ttk.Label(
+            pnl_frame, text="$0.00", font=("Arial", 12, "bold")
+        )
         self.pnl_long_label.grid(row=2, column=1, sticky=tk.W, pady=(0, 8))
 
-        ttk.Label(pnl_frame, text="Short Straddle P/L:").grid(row=3, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W)
-        self.pnl_short_label = ttk.Label(pnl_frame, text="$0.00", font=("Arial", 12, "bold"))
+        ttk.Label(pnl_frame, text="Short Straddle P/L:").grid(
+            row=3, column=0, padx=(0, 10), pady=(0, 8), sticky=tk.W
+        )
+        self.pnl_short_label = ttk.Label(
+            pnl_frame, text="$0.00", font=("Arial", 12, "bold")
+        )
         self.pnl_short_label.grid(row=3, column=1, sticky=tk.W)
 
     def setup_new_greeks_section(self, parent, row):
-        new_greeks_frame = ttk.LabelFrame(parent, text="New Scenario Greeks", padding="10")
+        new_greeks_frame = ttk.LabelFrame(
+            parent, text="New Scenario Greeks", padding="10"
+        )
         new_greeks_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=(0, 15))
         new_greeks_frame.columnconfigure(1, weight=1)
         new_greeks_frame.columnconfigure(3, weight=1)
 
-        ttk.Label(new_greeks_frame, text="Delta:").grid(row=0, column=0, padx=(0, 5), pady=(0, 5), sticky=tk.W)
-        self.new_delta_label = ttk.Label(new_greeks_frame, text="0.00", font=("Arial", 10, "bold"))
+        ttk.Label(new_greeks_frame, text="Delta:").grid(
+            row=0, column=0, padx=(0, 5), pady=(0, 5), sticky=tk.W
+        )
+        self.new_delta_label = ttk.Label(
+            new_greeks_frame, text="0.00", font=("Arial", 10, "bold")
+        )
         self.new_delta_label.grid(row=0, column=1, sticky=tk.W, pady=(0, 5))
 
-        ttk.Label(new_greeks_frame, text="Gamma:").grid(row=0, column=2, padx=(0, 5), pady=(0, 5), sticky=tk.W)
-        self.new_gamma_label = ttk.Label(new_greeks_frame, text="0.00", font=("Arial", 10, "bold"))
+        ttk.Label(new_greeks_frame, text="Gamma:").grid(
+            row=0, column=2, padx=(0, 5), pady=(0, 5), sticky=tk.W
+        )
+        self.new_gamma_label = ttk.Label(
+            new_greeks_frame, text="0.00", font=("Arial", 10, "bold")
+        )
         self.new_gamma_label.grid(row=0, column=3, sticky=tk.W, pady=(0, 5))
 
-        ttk.Label(new_greeks_frame, text="Vega:").grid(row=1, column=0, padx=(0, 5), pady=(0, 5), sticky=tk.W)
-        self.new_vega_label = ttk.Label(new_greeks_frame, text="0.00", font=("Arial", 10, "bold"))
+        ttk.Label(new_greeks_frame, text="Vega:").grid(
+            row=1, column=0, padx=(0, 5), pady=(0, 5), sticky=tk.W
+        )
+        self.new_vega_label = ttk.Label(
+            new_greeks_frame, text="0.00", font=("Arial", 10, "bold")
+        )
         self.new_vega_label.grid(row=1, column=1, sticky=tk.W, pady=(0, 5))
 
-        ttk.Label(new_greeks_frame, text="Theta:").grid(row=1, column=2, padx=(0, 5), pady=(0, 5), sticky=tk.W)
-        self.new_theta_label = ttk.Label(new_greeks_frame, text="0.00", font=("Arial", 10, "bold"))
+        ttk.Label(new_greeks_frame, text="Theta:").grid(
+            row=1, column=2, padx=(0, 5), pady=(0, 5), sticky=tk.W
+        )
+        self.new_theta_label = ttk.Label(
+            new_greeks_frame, text="0.00", font=("Arial", 10, "bold")
+        )
         self.new_theta_label.grid(row=1, column=3, sticky=tk.W, pady=(0, 5))
 
     def setup_status_section(self, parent, row):
         status_frame = ttk.LabelFrame(parent, text="Status", padding="10")
-        status_frame.grid(row=row, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 15))
+        status_frame.grid(
+            row=row, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 15)
+        )
         status_frame.columnconfigure(0, weight=1)
         status_frame.rowconfigure(0, weight=1)
         parent.rowconfigure(row, weight=1)
 
-        self.status_var = tk.StringVar(value="Ready to connect to Interactive Brokers...")
-        self.status_display = ttk.Label(status_frame, textvariable=self.status_var, wraplength=300, justify=tk.LEFT, font=("Arial", 9))
+        self.status_var = tk.StringVar(
+            value="Ready to connect to Interactive Brokers..."
+        )
+        self.status_display = ttk.Label(
+            status_frame,
+            textvariable=self.status_var,
+            wraplength=300,
+            justify=tk.LEFT,
+            font=("Arial", 9),
+        )
         self.status_display.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N))
 
     def update_status(self, message):
@@ -308,7 +455,9 @@ class VolatilityCrushAnalyzer:
                 self.status_label.config(text="Connected")
                 self.update_status("Successfully connected to IB TWS")
             else:
-                self.update_status("Failed to connect to IB TWS (nextValidId not received)")
+                self.update_status(
+                    "Failed to connect to IB TWS (nextValidId not received)"
+                )
         except Exception as e:
             self.update_status(f"Connection Error: {e}")
 
@@ -414,7 +563,9 @@ class VolatilityCrushAnalyzer:
             iv_data = self.ib_app.historical_data[2]
             latest_iv = iv_data[-1]
             self.current_iv = latest_iv["close"]
-            iv_display = self.current_iv * 100 if self.current_iv <= 1 else self.current_iv
+            iv_display = (
+                self.current_iv * 100 if self.current_iv <= 1 else self.current_iv
+            )
             self.update_status(f"Latest IV data: {iv_display:.2f}%")
         else:
             self.update_status("No historical IV data received")
@@ -433,7 +584,9 @@ class VolatilityCrushAnalyzer:
             iv_percent = float(self.iv_var.get())
             days_to_expiry = int(self.days_var.get())
         except ValueError:
-            messagebox.showerror("Error", "Please enter a valid number for all parameters")
+            messagebox.showerror(
+                "Error", "Please enter a valid number for all parameters"
+            )
             return
 
         iv_decimal = iv_percent / 100.0
@@ -444,16 +597,14 @@ class VolatilityCrushAnalyzer:
         put_price = self.black_scholes_put(spot_price, strike_price, T, r, iv_decimal)
         straddle_price = call_price + put_price
 
-        delta = (
-            self.calculate_delta(spot_price, strike_price, T, r, iv_decimal, "call")
-            + self.calculate_delta(spot_price, strike_price, T, r, iv_decimal, "put")
-        )
+        delta = self.calculate_delta(
+            spot_price, strike_price, T, r, iv_decimal, "call"
+        ) + self.calculate_delta(spot_price, strike_price, T, r, iv_decimal, "put")
         gamma = self.calculate_gamma(spot_price, strike_price, T, r, iv_decimal)
         vega = self.calculate_vega(spot_price, strike_price, T, r, iv_decimal) * 2
-        theta = (
-            self.calculate_theta(spot_price, strike_price, T, r, iv_decimal, "call")
-            + self.calculate_theta(spot_price, strike_price, T, r, iv_decimal, "put")
-        )
+        theta = self.calculate_theta(
+            spot_price, strike_price, T, r, iv_decimal, "call"
+        ) + self.calculate_theta(spot_price, strike_price, T, r, iv_decimal, "put")
 
         self.call_price_label.config(text=f"${call_price:.2f}")
         self.put_price_label.config(text=f"${put_price:.2f}")
@@ -471,7 +622,9 @@ class VolatilityCrushAnalyzer:
         if not self.new_iv_var.get():
             self.new_iv_var.set(f"{iv_percent:.2f}")
 
-        self.update_status(f"Straddle priced: ${straddle_price:.2f} (Call: ${call_price:.2f} + Put: ${put_price:.2f})")
+        self.update_status(
+            f"Straddle priced: ${straddle_price:.2f} (Call: ${call_price:.2f} + Put: ${put_price:.2f})"
+        )
 
     def analyze_scenario(self):
         try:
@@ -496,7 +649,9 @@ class VolatilityCrushAnalyzer:
         new_put_price = self.black_scholes_put(new_spot, K, T, r, new_iv)
         new_straddle_price = new_call_price + new_put_price
 
-        original_straddle_price = float(str(self.straddle_price_label.cget("text")).replace("$", ""))
+        original_straddle_price = float(
+            str(self.straddle_price_label.cget("text")).replace("$", "")
+        )
 
         pnl_long = new_straddle_price - original_straddle_price
         pnl_short = -pnl_long
@@ -509,16 +664,14 @@ class VolatilityCrushAnalyzer:
         self.pnl_long_label.config(text=f"{pnl_long:+.2f}", foreground=long_color)
         self.pnl_short_label.config(text=f"{pnl_short:+.2f}", foreground=short_color)
 
-        new_delta = (
-            self.calculate_delta(new_spot, K, T, r, new_iv, "call")
-            + self.calculate_delta(new_spot, K, T, r, new_iv, "put")
-        )
+        new_delta = self.calculate_delta(
+            new_spot, K, T, r, new_iv, "call"
+        ) + self.calculate_delta(new_spot, K, T, r, new_iv, "put")
         new_gamma = self.calculate_gamma(new_spot, K, T, r, new_iv)
         new_vega = self.calculate_vega(new_spot, K, T, r, new_iv) * 2
-        new_theta = (
-            self.calculate_theta(new_spot, K, T, r, new_iv, "call")
-            + self.calculate_theta(new_spot, K, T, r, new_iv, "put")
-        )
+        new_theta = self.calculate_theta(
+            new_spot, K, T, r, new_iv, "call"
+        ) + self.calculate_theta(new_spot, K, T, r, new_iv, "put")
 
         self.new_delta_label.config(text=f"{new_delta:.3f}")
         self.new_gamma_label.config(text=f"{new_gamma:.3f}")
@@ -568,9 +721,15 @@ class VolatilityCrushAnalyzer:
         d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - sigma * np.sqrt(T)
         if option_type == "call":
-            theta = (-S * norm.pdf(d1) * sigma / (2 * np.sqrt(T)) - r * K * np.exp(-r * T) * norm.cdf(d2)) / 365.0
+            theta = (
+                -S * norm.pdf(d1) * sigma / (2 * np.sqrt(T))
+                - r * K * np.exp(-r * T) * norm.cdf(d2)
+            ) / 365.0
         else:
-            theta = (-S * norm.pdf(d1) * sigma / (2 * np.sqrt(T)) + r * K * np.exp(-r * T) * norm.cdf(-d2)) / 365.0
+            theta = (
+                -S * norm.pdf(d1) * sigma / (2 * np.sqrt(T))
+                + r * K * np.exp(-r * T) * norm.cdf(-d2)
+            ) / 365.0
         return theta
 
 
@@ -581,7 +740,9 @@ class StockScout:
         self.label.pack(pady=10)
         self.entry = tk.Entry(parent, font=("Arial", 12))
         self.entry.pack(pady=5)
-        self.button = tk.Button(parent, text="Get Ticker History", command=self.get_stock_data)
+        self.button = tk.Button(
+            parent, text="Get Ticker History", command=self.get_stock_data
+        )
         self.button.pack(pady=10)
 
     def get_stock_data(self):
@@ -601,12 +762,12 @@ class StockScout:
         print(daily_data.tail())
         print("\n**Intraday Data (Today)**")
         print(intraday_data.tail())
-        plt.figure(figsize=(10, 4), facecolor = 'black')
+        plt.figure(figsize=(10, 4), facecolor="black")
         plt.plot(daily_data["Close"], label="YTD Daily")
         plt.title(f"{ticker} - Daily YTD Close")
         plt.legend()
         plt.show()
-        plt.figure(figsize=(10, 4), facecolor = 'black')
+        plt.figure(figsize=(10, 4), facecolor="black")
         plt.plot(intraday_data["Close"], label="Intraday 5m")
         plt.title(f"{ticker} - Intraday Close")
         plt.legend()
@@ -624,7 +785,9 @@ class Comparetwo:
         self.label2.pack(pady=5)
         self.entry2 = tk.Entry(parent, font=("Arial", 12))
         self.entry2.pack(pady=5)
-        self.button = tk.Button(parent, text="Compare Two Tickers", command=self.compare_two)
+        self.button = tk.Button(
+            parent, text="Compare Two Tickers", command=self.compare_two
+        )
         self.button.pack(pady=10)
 
     def compare_two(self):
@@ -638,7 +801,7 @@ class Comparetwo:
         if data1.empty or data2.empty:
             messagebox.showerror("Data Error", "No data found for one or both tickers.")
             return
-        plt.figure(figsize=(10, 6), facecolor = 'black')
+        plt.figure(figsize=(10, 6), facecolor="black")
         plt.plot(data1["Close"], label=t1)
         plt.plot(data2["Close"], label=t2)
         plt.xlabel("Date")
@@ -647,6 +810,7 @@ class Comparetwo:
         plt.legend()
         plt.show()
 
+
 class LineReg:
     def __init__(self, parent):
         self.parent = parent
@@ -654,7 +818,9 @@ class LineReg:
         self.label.pack(pady=5)
         self.entry = tk.Entry(parent, font=("Arial", 12))
         self.entry.pack(pady=5)
-        self.button = tk.Button(parent, text="Run Linear Regression", command=self.run_line_reg)
+        self.button = tk.Button(
+            parent, text="Run Linear Regression", command=self.run_line_reg
+        )
         self.button.pack(pady=10)
 
     def run_line_reg(self):
@@ -704,15 +870,73 @@ class LineReg:
         plt.legend()
         plt.show()
 
+class TradeSig:
+    def __init__(self, parent):
+        self.parent = parent
+        
+        self.label = tk.Label(parent, text="Ticker:", font=("Arial", 12))
+        self.label = tk.Label(parent, text="Ticker:", font=("Arial", 12))
+        self.label.pack(pady=5)
+        self.entry = tk.Entry(parent, font=("Arial", 12))
+        self.entry.pack(pady=5)
+        self.button = tk.Button(
+            parent, text="Trade Signals", command=self.run_line_reg
+        )
+        self.button.pack(pady=10)
 
+    def trade_sig_logic(self):
+        user_input = input("Enter Ticker: ").upper()
+        data = yf.download(user_input, period="ytd", auto_adjust=True)[["Close"]].copy()
+
+        data["SMA_20"] = data["Close"].rolling(window=20).mean()
+        data["SMA_50"] = data["Close"].rolling(window=50).mean()
+
+        delta = data["Close"].diff().squeeze()
+        gain = pd.Series(np.where(delta > 0, delta, 0), index=data.index)
+        loss = pd.Series(np.where(delta < 0, -delta, 0), index=data.index)
+
+        avg_gain = gain.rolling(window=14).mean()
+        avg_loss = loss.rolling(window=14).mean()
+        rs = avg_gain / avg_loss
+        data["RSI"] = 100 - (100 / (1 + rs))
+
+        short_ema = data["Close"].ewm(span=12, adjust=False).mean()
+        long_ema = data["Close"].ewm(span=26, adjust=False).mean()
+        data["MACD"] = short_ema - long_ema
+        data["Signal_Line"] = data["MACD"].ewm(span=9, adjust=False).mean()
+
+        data["Buy_Signal"] = (data["SMA_20"] > data["SMA_50"]) & (data["SMA_20"].shift(1) <= data["SMA_50"].shift(1)) & (data["RSI"] < 40)
+        data["Sell_Signal"] = (data["SMA_20"] < data["SMA_50"]) & (data["SMA_20"].shift(1) >= data["SMA_50"].shift(1)) & (data["RSI"] > 60)
+
+        print("\nRecent Buy/Sell Signals:")
+        print(data.loc[data["Buy_Signal"] | data["Sell_Signal"], ["Close", "SMA_20", "SMA_50", "RSI", "Buy_Signal", "Sell_Signal"]].tail())
+
+        plt.figure(figsize=(12, 8))
+        plt.style.use('default')
+        ax = plt.gca()
+
+        ax.plot(data["Close"], label="Close Price", color="gray")
+        ax.plot(data["SMA_20"], label="SMA_20", alpha=0.8)
+        ax.plot(data["SMA_50"], label="SMA_50", alpha=0.8)
+
+        ax.scatter(data.index[data["Buy_Signal"]], data["Close"][data["Buy_Signal"]], marker="^", color="green", label="Buy Signal", s=100)
+        ax.scatter(data.index[data["Sell_Signal"]], data["Close"][data["Sell_Signal"]], marker="v", color="red", label="Sell Signal", s=100)
+
+        plt.title(f"{user_input} - Trade Signals (YTD)")
+        plt.xlabel("Date")
+        plt.ylabel("Price")
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+
+        #fixed what i could im tired just fix it whenever lol
     
-
 
 def main():
     root = tk.Tk()
     root.title("All-in-One Trading Tool")
     root.geometry("1350x800")
-    root.configure(bg = "#000000")
+    root.configure(bg="#000000")
 
     style = ttk.Style()
     style.theme_use("clam")
@@ -722,7 +946,7 @@ def main():
 
     root.configure(bg="#000000")
 
-    vca_frame = ttk.Frame(root, style ='Black.TFrame')
+    vca_frame = ttk.Frame(root, style="Black.TFrame")
     vca_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10, pady=10)
     VolatilityCrushAnalyzer(vca_frame)
 
@@ -737,6 +961,10 @@ def main():
     run_line_reg_frame = ttk.Frame(root)
     run_line_reg_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10, pady=10)
     LineReg(run_line_reg_frame)
+
+    trade_frame = ttk.Frame(root)
+    trade_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10, pady=10)
+    TradeSig(trade_frame)
 
     root.mainloop()
 
