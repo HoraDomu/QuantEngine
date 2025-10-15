@@ -148,7 +148,6 @@ Automatic order execution via IBKR API
 🧾 License
 
 This project is licensed under the MIT License.
-You are free to modify, distribute, or build upon it for research and educational use.
 
 👨‍💻 Author
 
