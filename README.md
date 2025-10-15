@@ -131,6 +131,9 @@ Calculate Straddle – Automatically prices options using the Black-Scholes mode
 Analyze Scenarios – Adjust IV or spot price to see P/L changes in real time.
 
 Visualize – Optional plotting of price or volatility trends.
+
+|TO RUN|
+Simply copy the code from main.py into a IDE of choice, mine is Lite-XL, install the required modules from requirements by typing "python -m pip install (and copy and paste the requirements here)". Then simply save and run via terminal using "py main.py"
 ​
 
 🧠 Future Additions
