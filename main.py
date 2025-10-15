@@ -880,13 +880,14 @@ class TradeSig:
         self.entry = tk.Entry(parent, font=("Arial", 12))
         self.entry.pack(pady=5)
         self.button = tk.Button(
-            parent, text="Trade Signals", command=self.run_line_reg
+            parent, text="Trade Signals", command=self.trade_sig_logic 
         )
         self.button.pack(pady=10)
 
     def trade_sig_logic(self):
-        user_input = input("Enter Ticker: ").upper()
-        data = yf.download(user_input, period="ytd", auto_adjust=True)[["Close"]].copy()
+        ticker = self.entry.get().upper()
+        #user_input = input("Enter Ticker: ").upper()
+        data = yf.download(ticker, period="ytd", auto_adjust=True)[["Close"]].copy()
 
         data["SMA_20"] = data["Close"].rolling(window=20).mean()
         data["SMA_50"] = data["Close"].rolling(window=50).mean()
@@ -911,7 +912,7 @@ class TradeSig:
         print("\nRecent Buy/Sell Signals:")
         print(data.loc[data["Buy_Signal"] | data["Sell_Signal"], ["Close", "SMA_20", "SMA_50", "RSI", "Buy_Signal", "Sell_Signal"]].tail())
 
-        plt.figure(figsize=(12, 8))
+        plt.figure(figsize=(12, 8), facecolor = 'black')
         plt.style.use('default')
         ax = plt.gca()
 
@@ -922,20 +923,20 @@ class TradeSig:
         ax.scatter(data.index[data["Buy_Signal"]], data["Close"][data["Buy_Signal"]], marker="^", color="green", label="Buy Signal", s=100)
         ax.scatter(data.index[data["Sell_Signal"]], data["Close"][data["Sell_Signal"]], marker="v", color="red", label="Sell Signal", s=100)
 
-        plt.title(f"{user_input} - Trade Signals (YTD)")
+        plt.title(f"{ticker} - Trade Signals (YTD)")
         plt.xlabel("Date")
         plt.ylabel("Price")
         plt.legend()
         plt.grid(True)
         plt.show()
 
-        #fixed what i could im tired just fix it whenever lol
+      
     
 
 def main():
     root = tk.Tk()
     root.title("All-in-One Trading Tool")
-    root.geometry("1350x800")
+    root.geometry("1500x1200")
     root.configure(bg="#000000")
 
     style = ttk.Style()
