@@ -870,23 +870,24 @@ class LineReg:
         plt.legend()
         plt.show()
 
+
 class TradeSig:
     def __init__(self, parent):
         self.parent = parent
-        
+
         self.label = tk.Label(parent, text="Ticker:", font=("Arial", 12))
         self.label = tk.Label(parent, text="Ticker:", font=("Arial", 12))
         self.label.pack(pady=5)
         self.entry = tk.Entry(parent, font=("Arial", 12))
         self.entry.pack(pady=5)
         self.button = tk.Button(
-            parent, text="Trade Signals", command=self.trade_sig_logic 
+            parent, text="Trade Signals", command=self.trade_sig_logic
         )
         self.button.pack(pady=10)
 
     def trade_sig_logic(self):
         ticker = self.entry.get().upper()
-        #user_input = input("Enter Ticker: ").upper()
+        # user_input = input("Enter Ticker: ").upper()
         data = yf.download(ticker, period="ytd", auto_adjust=True)[["Close"]].copy()
 
         data["SMA_20"] = data["Close"].rolling(window=20).mean()
@@ -906,22 +907,49 @@ class TradeSig:
         data["MACD"] = short_ema - long_ema
         data["Signal_Line"] = data["MACD"].ewm(span=9, adjust=False).mean()
 
-        data["Buy_Signal"] = (data["SMA_20"] > data["SMA_50"]) & (data["SMA_20"].shift(1) <= data["SMA_50"].shift(1)) & (data["RSI"] < 40)
-        data["Sell_Signal"] = (data["SMA_20"] < data["SMA_50"]) & (data["SMA_20"].shift(1) >= data["SMA_50"].shift(1)) & (data["RSI"] > 60)
+        data["Buy_Signal"] = (
+            (data["SMA_20"] > data["SMA_50"])
+            & (data["SMA_20"].shift(1) <= data["SMA_50"].shift(1))
+            & (data["RSI"] < 40)
+        )
+        data["Sell_Signal"] = (
+            (data["SMA_20"] < data["SMA_50"])
+            & (data["SMA_20"].shift(1) >= data["SMA_50"].shift(1))
+            & (data["RSI"] > 60)
+        )
 
         print("\nRecent Buy/Sell Signals:")
-        print(data.loc[data["Buy_Signal"] | data["Sell_Signal"], ["Close", "SMA_20", "SMA_50", "RSI", "Buy_Signal", "Sell_Signal"]].tail())
+        print(
+            data.loc[
+                data["Buy_Signal"] | data["Sell_Signal"],
+                ["Close", "SMA_20", "SMA_50", "RSI", "Buy_Signal", "Sell_Signal"],
+            ].tail()
+        )
 
-        plt.figure(figsize=(12, 8), facecolor = 'black')
-        plt.style.use('default')
+        plt.figure(figsize=(12, 8), facecolor="black")
+        plt.style.use("default")
         ax = plt.gca()
 
         ax.plot(data["Close"], label="Close Price", color="gray")
         ax.plot(data["SMA_20"], label="SMA_20", alpha=0.8)
         ax.plot(data["SMA_50"], label="SMA_50", alpha=0.8)
 
-        ax.scatter(data.index[data["Buy_Signal"]], data["Close"][data["Buy_Signal"]], marker="^", color="green", label="Buy Signal", s=100)
-        ax.scatter(data.index[data["Sell_Signal"]], data["Close"][data["Sell_Signal"]], marker="v", color="red", label="Sell Signal", s=100)
+        ax.scatter(
+            data.index[data["Buy_Signal"]],
+            data["Close"][data["Buy_Signal"]],
+            marker="^",
+            color="green",
+            label="Buy Signal",
+            s=100,
+        )
+        ax.scatter(
+            data.index[data["Sell_Signal"]],
+            data["Close"][data["Sell_Signal"]],
+            marker="v",
+            color="red",
+            label="Sell Signal",
+            s=100,
+        )
 
         plt.title(f"{ticker} - Trade Signals (YTD)")
         plt.xlabel("Date")
@@ -930,8 +958,6 @@ class TradeSig:
         plt.grid(True)
         plt.show()
 
-      
-    
 
 def main():
     root = tk.Tk()
