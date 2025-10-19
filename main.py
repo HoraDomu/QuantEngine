@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 import threading
+import sklearn as sk
 import time
 from scipy.stats import norm
 import pandas as pd
@@ -79,7 +80,7 @@ class VolatilityCrushAnalyzer:
 
         title_label = ttk.Label(
             main_frame,
-            text=f"[Volatility Crush Analyzer]\n {datetime.now().strftime('[%Y-%m-%d] [%I:%M:%S %p]')}",
+            text=f"Volatility Crush Analyzer\n {datetime.now().strftime('%Y-%m-%d %I:%M:%S %p')}",
             font=("Arial", 16, "bold"),
         )
         title_label.grid(row=0, column=0, columnspan=2, pady=(0, 20))
@@ -961,7 +962,7 @@ class TradeSig:
 
 def main():
     root = tk.Tk()
-    root.title("All-in-One Trading Tool")
+    root.title("Quant Engine")
     root.geometry("1500x1200")
     root.configure(bg="#000000")
 
@@ -998,3 +999,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#remove bracket on date and time, change name to Quant Engine
